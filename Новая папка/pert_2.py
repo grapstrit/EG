@@ -100,3 +100,60 @@ for x in [0, 1]:
                 if F == False:
                     print(x, y, z, w, F)
 '''
+
+from itertools import permutations
+
+def logical_function(x, y, z, w):
+    """Функция для вычисления значения F для каждой комбинации"""
+    return int((x <= (y == w)) and (y == (w <= z)))
+
+def print_truth_table():
+    """Вывод таблицы истинности для наглядности"""
+    print("Задача 1:")
+    print("x y z w F")
+    for x in [0, 1]:
+        for y in [0, 1]:
+            for z in [0, 1]:
+                for w in [0, 1]:
+                    F = logical_function(x, y, z, w)
+                    print(x, y, z, w, F)
+
+def match_variables_with_columns(table):
+    variables = ['x', 'y', 'z', 'w']
+    
+    # Перебираем все возможные перестановки переменных (x, y, z, w)
+    for perm in permutations(variables):
+        correct = True
+        for row in table:
+            # Пример: perm = ('x', 'y', 'z', 'w'), значит соответствие переменных
+            # row[0] -> perm[0], row[1] -> perm[1], и так далее
+            mapping = {perm[i]: row[i] for i in range(4)}
+            x, y, z, w = mapping['x'], mapping['y'], mapping['z'], mapping['w']
+            
+            # Если значение логической функции не совпадает с данными в таблице, пропускаем
+            if logical_function(x, y, z, w) != row[-1]:
+                correct = False
+                break
+        
+        # Если соответствие найдено, выводим порядок переменных
+        if correct:
+            return ''.join(perm)
+
+    return "No matching order found"
+
+# Пример таблицы (4 переменные + F)
+table = [
+    [1, 0, 0, 1, 0],  # Пример строки таблицы истинности (включая результат F)
+    [0, 1, 0, 1, 1],
+    [1, 1, 1, 0, 0],
+    [0, 0, 1, 1, 1]
+]
+
+# Вывод таблицы истинности (дополнительно для наглядности)
+print_truth_table()
+
+# Найдем порядок переменных
+result = match_variables_with_columns(table)
+print(f"\nПорядок переменных: {result}")
+
+
