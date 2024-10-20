@@ -136,17 +136,13 @@ def G(N):
         N //= 3
     return three
 
-def F(N):
-    s = str(N)
-    
-    if N % 3 == 0:
-        s = s + str(-3)
-    else:
-        s = str((N % 3) * 3)
-    
-    r = int(s, 2)
-    return r
 
-for N in range(1, 12 + 1):
-    r = F(N)
-    print(N, r)
+def F(N):
+    three = G(N)
+    three = three + str(N % 3)
+    return int(three, 3)
+
+
+for N in range(1, 1000):
+    if F(N) > 999:
+        print(f'N = {N}, F(N) = {F(N)}')
